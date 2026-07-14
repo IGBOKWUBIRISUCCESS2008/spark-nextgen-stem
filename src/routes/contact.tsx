@@ -24,8 +24,7 @@ function Contact() {
           <div className="space-y-5">
             <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
               <ul className="space-y-4 text-sm">
-                <li className="flex items-center gap-3"><Phone className="h-5 w-5 text-primary" /> +234 813 331 3528</li>
-                <li className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> hello@steminyou.org</li>
+                <li className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> steminyou@gmail.com</li>
                 <li className="flex items-center gap-3">
                   <Linkedin className="h-5 w-5 text-primary" />
                   <a href="https://www.linkedin.com/in/precious-chioma-igbokwubiri-9a6502186" target="_blank" rel="noreferrer" className="hover:text-primary">
