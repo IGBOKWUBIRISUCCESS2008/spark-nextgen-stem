@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, PageBody } from "@/components/page-shell";
 import { Target, Eye, Heart } from "lucide-react";
+import founderImage from "@/assets/people/p.i.jpeg";
+import vicePresidentImage from "@/assets/people/s.i.jpeg";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -18,6 +20,19 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
+  const leaders = [
+    {
+      name: "Chioma Precious Igbokwubiri",
+      role: "Founder of stem in you campaign",
+      image: founderImage,
+    },
+    {
+      name: "Shallom Igbowukubiri",
+      role: "Vice president, girl up port harcourt",
+      image: vicePresidentImage,
+    },
+  ];
+
   return (
     <>
       <PageHeader
@@ -25,6 +40,25 @@ function About() {
         title="Nurturing minds. Building futures."
         subtitle="STEM IN YOU is an annual campaign inspiring young Nigerians in Science, Technology, Engineering and Mathematics — with a special focus on the girl child."
       />
+      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-15">
+        <div className="grid gap-10 md:grid-cols-2">
+          {leaders.map((leader) => (
+            <article
+              key={leader.name}
+              className="rounded-3xl border border-border bg-card p-8 text-center shadow-soft transition hover:-translate-y-0.5 hover:shadow-elegant"
+            >
+              <img
+                src={leader.image}
+                alt={leader.name}
+                className="mx-auto h-32 w-32 rounded-full border-4 border-primary/20 object-cover shadow-soft"
+                loading="lazy"
+              />
+              <h2 className="mt-5 text-xl font-semibold text-foreground">{leader.name}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">{leader.role}</p>
+            </article>
+          ))}
+        </div>
+      </section>
       <PageBody>
         <div className="grid gap-8 lg:grid-cols-3">
           {[
