@@ -60,7 +60,7 @@ function Counter({ to, suffix = "", label }: { to: number; suffix?: string; labe
   return (
     <div className="rounded-2xl glass p-6 text-center shadow-soft">
       <div className="text-4xl font-bold text-gradient-brand sm:text-5xl">
-        <span ref={ref}>{value.toLocaleString()}</span>
+        <span ref={ref}>{value.toString()}</span>
         {suffix}
       </div>
       <div className="mt-2 text-sm font-medium text-muted-foreground">{label}</div>
@@ -239,17 +239,17 @@ function Programs() {
 
 const TESTIMONIALS = [
   {
-    name: "Amaka O.",
+    name: "Success Igbokwubiri",
     role: "Student, Lagos",
     text: "The STEM IN YOU session changed how I see science. I now want to become an engineer.",
   },
   {
-    name: "Mr. Adewale",
+    name: "Mr. Justice . I",
     role: "Teacher",
     text: "The team brought experiments and energy our students had never seen. Truly transformative.",
   },
   {
-    name: "Chidinma",
+    name: "Mrs. Chioma",
     role: "Volunteer Mentor",
     text: "Watching girls light up when they solve a problem is the most rewarding thing I've done.",
   },
