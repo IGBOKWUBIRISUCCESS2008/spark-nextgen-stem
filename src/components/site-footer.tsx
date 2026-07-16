@@ -56,11 +56,11 @@ export function SiteFooter() {
         <div>
           <h4 className="mb-3 text-sm font-semibold">Contact</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2">
+            {/* <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-primary" /> +234 813 331 3528
-            </li>
+            </li> */}
             <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-primary" /> hello@steminyou.org
+              <Mail className="h-4 w-4 text-primary" /> contact@steminyou.com
             </li>
             <li>
               <a
@@ -81,7 +81,7 @@ export function SiteFooter() {
               alert("Thanks for subscribing!");
             }}
           >
-            <input
+            {/* <input
               type="email"
               required
               placeholder="Your email"
@@ -89,7 +89,7 @@ export function SiteFooter() {
             />
             <button className="rounded-full bg-gradient-brand px-4 py-2 text-sm font-semibold text-white">
               Join
-            </button>
+            </button> */}
           </form>
         </div>
       </div>
