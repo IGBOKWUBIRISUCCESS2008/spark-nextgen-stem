@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Linkedin, Phone, Mail } from "lucide-react";
+import { Linkedin, Mail } from "lucide-react";
 import logo from "@/assets/stem-in-you-logo.jpeg.asset.json";
 
 export function SiteFooter() {
+  const contactEmail = "contact@steminyou.com";
   return (
     <footer className="mt-24 border-t border-border bg-gradient-soft">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
@@ -60,7 +61,10 @@ export function SiteFooter() {
               <Phone className="h-4 w-4 text-primary" /> +234 813 331 3528
             </li> */}
             <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-primary" /> contact@steminyou.com
+              <Mail className="h-4 w-4 text-primary" />
+              <a href={`mailto:${contactEmail}`} className="hover:text-primary">
+                {contactEmail}
+              </a>
             </li>
             <li>
               <a
