@@ -176,9 +176,9 @@ function Impact() {
     { to: 2021, label: "Founded" },
     { to: 400, suffix: "+", label: "Students Reached" },
     { to: 4, label: "Campaign Editions" },
-    { to: 12, suffix: "+", label: "Schools Visited" },
-    { to: 60, suffix: "+", label: "Volunteers" },
-    { to: 45, suffix: "+", label: "STEM Sessions" },
+    { to: 10, suffix: "+", label: "Schools Visited" },
+    { to: 40, suffix: "+", label: "Volunteers" },
+    { to: 30, suffix: "+", label: "STEM Sessions" },
   ];
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -239,19 +239,24 @@ function Programs() {
 
 const TESTIMONIALS = [
   {
-    name: "Success Igbokwubiri",
-    role: "Student, Lagos",
-    text: "The STEM IN YOU session changed how I see science. I now want to become an engineer.",
+    name: "Danielle Young",
+    role: "Volunteer",
+    text: "Watching girls light up when they solve problems is the most rewarding thing I've seen.",
   },
   {
-    name: "Mr. Justice . I",
+    name: "Success Ifunaya",
+    role: "Student",
+    text: "The STEM IN YOU sessions changed how I see science. I now want to become an engineer.",
+  },
+  {
+    name: "Justice Ebube",
     role: "Teacher",
-    text: "The team brought experiments and energy our students had never seen. Truly transformative.",
+    text: "The team brought new experiments and energy our students had never seen. Truly transformative.",
   },
   {
-    name: "Mrs. Chioma",
-    role: "Volunteer Mentor",
-    text: "Watching girls light up when they solve a problem is the most rewarding thing I've done.",
+    name: "Andikan Prince",
+    role: "Volunteer",
+    text: "STEM IN YOU has been incredibly rewarding. Seeing the students' excitement during hands-on learning is unforgettable.",
   },
 ];
 
