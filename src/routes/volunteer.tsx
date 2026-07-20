@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, PageBody } from "@/components/page-shell";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const Route = createFileRoute("/volunteer")({
   component: Volunteer,
@@ -18,9 +18,42 @@ const INTERESTS = ["Mentorship", "Workshop Facilitation", "Robotics", "Coding", 
 function Volunteer() {
   const [selected, setSelected] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cvFileName, setCvFileName] = useState<string | null>(null);
+  const [cvStatus, setCvStatus] = useState<string | null>(null);
+  const [cvError, setCvError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const contactEmail = "contact@steminyou.com";
 
   const toggle = (i: string) =>
     setSelected((s) => (s.includes(i) ? s.filter((x) => x !== i) : [...s, i]));
+
+  const handleCvPick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCvError(null);
+    setCvStatus(null);
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      setCvFileName(null);
+      return;
+    }
+
+    const maxSizeMb = 5;
+    if (file.size > maxSizeMb * 1024 * 1024) {
+      setCvFileName(null);
+      setCvError(`File is too large. Please upload a file smaller than ${maxSizeMb}MB.`);
+      e.target.value = "";
+      return;
+    }
+
+    setCvFileName(file.name);
+    setCvStatus("CV selected successfully.");
+  };
 
   return (
     <>
@@ -33,9 +66,74 @@ function Volunteer() {
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              setSubmitted(true);
+              setError(null);
+              setSending(true);
+              setCvError(null);
+
+              const form = e.currentTarget;
+              const formData = new FormData(form);
+              const name = String(formData.get("name") ?? "").trim();
+              const email = String(formData.get("email") ?? "").trim();
+              const phone = String(formData.get("phone") ?? "").trim();
+              const location = String(formData.get("location") ?? "").trim();
+              const bio = String(formData.get("bio") ?? "").trim();
+              const cv = formData.get("cv");
+              const hasCv = cv instanceof File && cv.size > 0;
+
+              const payload = new FormData();
+              payload.append("name", name);
+              payload.append("email", email);
+              payload.append("phone", phone);
+              payload.append("location", location);
+              payload.append("areasOfInterest", selected.length ? selected.join(", ") : "Not specified");
+              payload.append("bio", bio);
+              payload.append("_subject", `Volunteer application from ${name || "Website visitor"}`);
+              payload.append("_template", "table");
+
+              if (hasCv) {
+                payload.append("cv", cv);
+              }
+
+              try {
+                const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
+                  method: "POST",
+                  body: payload,
+                });
+
+                if (!response.ok) throw new Error("Unable to submit volunteer application");
+
+                setSubmitted(true);
+                if (hasCv) {
+                  setCvStatus("CV uploaded successfully.");
+                }
+                setCvFileName(null);
+                form.reset();
+                setSelected([]);
+              } catch {
+                const subject = encodeURIComponent(`Volunteer application from ${name || "Website visitor"}`);
+                const body = encodeURIComponent(
+                  [
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Phone: ${phone || "N/A"}`,
+                    `Location: ${location || "N/A"}`,
+                    `Areas of interest: ${selected.length ? selected.join(", ") : "Not specified"}`,
+                    "",
+                    "About applicant:",
+                    bio,
+                    "",
+                    hasCv
+                      ? "CV was selected in form. Please attach the CV manually in your email app before sending."
+                      : "No CV attached.",
+                  ].join("\n"),
+                );
+                window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+                setError("Direct submission failed. Your email app has been opened as backup.");
+              } finally {
+                setSending(false);
+              }
             }}
             className="mx-auto max-w-2xl space-y-5 rounded-3xl border border-border bg-card p-8 shadow-soft"
           >
@@ -68,11 +166,36 @@ function Volunteer() {
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold">Upload CV (optional)</label>
-              <input type="file" name="cv" accept=".pdf,.doc,.docx" className="text-sm" />
+              <input
+                ref={fileInputRef}
+                type="file"
+                name="cv"
+                accept=".pdf,.doc,.docx"
+                onChange={handleCvChange}
+                className="sr-only"
+              />
+              <button
+                type="button"
+                onClick={handleCvPick}
+                className="inline-flex rounded-full border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-accent"
+              >
+                {cvFileName ? "Change CV" : "Choose CV file"}
+              </button>
+              <p className="mt-2 text-xs text-muted-foreground">Accepted: PDF, DOC, DOCX (max 5MB).</p>
+              {cvFileName && <p className="mt-1 text-xs text-emerald-600">{cvFileName}</p>}
+              {cvStatus && <p className="mt-1 text-xs text-emerald-600">{cvStatus}</p>}
+              {cvError && <p className="mt-1 text-xs text-amber-600">{cvError}</p>}
             </div>
-            <button className="rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-white shadow-elegant">
-              Submit application
+            <button
+              disabled={sending}
+              className="rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-white shadow-elegant disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {sending ? "Submitting..." : "Submit application"}
             </button>
+            <p className="text-xs text-muted-foreground">
+              This form sends directly to {contactEmail} without a database.
+            </p>
+            {error && <p className="text-xs text-amber-600">{error}</p>}
           </form>
         )}
       </PageBody>
