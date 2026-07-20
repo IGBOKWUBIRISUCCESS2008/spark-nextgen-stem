@@ -17,6 +17,8 @@ const links = [
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
+  const contactEmail = "contact@steminyou.com";
+  const emailHref = `mailto:${contactEmail}?subject=${encodeURIComponent("STEM IN YOU website enquiry")}`;
   return (
     <header className="sticky top-0 z-50 glass">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -41,6 +43,12 @@ export function SiteNav() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={emailHref}
+            className="hidden rounded-full border border-primary/30 bg-background px-4 py-2 text-sm font-semibold text-primary transition hover:bg-accent sm:inline-flex"
+          >
+            Email Us
+          </a>
           <Link
             to="/donate"
             className="hidden rounded-full bg-gradient-brand px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:opacity-95 sm:inline-flex"
@@ -77,6 +85,13 @@ export function SiteNav() {
             >
               Donate
             </Link>
+            <a
+              href={emailHref}
+              onClick={() => setOpen(false)}
+              className="rounded-full border border-primary/30 px-4 py-2 text-center text-sm font-semibold text-primary"
+            >
+              Email Us
+            </a>
           </nav>
         </div>
       )}
