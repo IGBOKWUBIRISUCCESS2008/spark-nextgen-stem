@@ -28,7 +28,7 @@ function About() {
       imageClassName: "object-center",
     },
     {
-      name: "Shalom Chinonye Igbokwubiri",
+      name: "Shallom Chinonye Igbokwubiri",
       role: "Co-Founder, STEM IN YOU",
       image: vicePresidentImage,
       imageClassName: "object-[50%_35%] scale-110",
