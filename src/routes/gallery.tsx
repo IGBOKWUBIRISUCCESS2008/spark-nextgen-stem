@@ -24,26 +24,52 @@ export const Route = createFileRoute("/gallery")({
   }),
 });
 
-const CATEGORIES = ["All", "Campaigns", "Workshops", "Team", "Posters"] as const;
-type Cat = (typeof CATEGORIES)[number];
+const imageModules = import.meta.glob(
+  "@/assets/new-images/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}",
+  {
+    eager: true,
+    import: "default",
+  },
+) as Record<string, string>;
 
-const IMAGES: { src: string; cat: Cat; alt: string }[] = [
-  { src: g1.url, cat: "Campaigns", alt: "Student holding STEM IN YOU 3.0 flyer and mathematical instruments" },
-  { src: g4.url, cat: "Campaigns", alt: "Girl at Brook Height School with STEM IN YOU souvenirs" },
-  { src: g2.url, cat: "Workshops", alt: "Students attending a STEM IN YOU session in a classroom" },
-  { src: g7.url, cat: "Workshops", alt: "Facilitator engaging students during a STEM presentation" },
-  { src: g8.url, cat: "Workshops", alt: "Students taking notes during a STEM IN YOU activity" },
-  { src: g5.url, cat: "Workshops", alt: "Outdoor school gathering during STEM IN YOU campaign" },
-  { src: g9.url, cat: "Campaigns", alt: "Group of students with STEM IN YOU flyers and Girl Up / UNF banner" },
-  { src: g3.url, cat: "Team", alt: "Girl Up Port Harcourt volunteers at STEM IN YOU event" },
-  { src: g10.url, cat: "Team", alt: "STEM IN YOU volunteer team, Millennium Fellowship cohort" },
-  { src: g6.url, cat: "Posters", alt: "STEM IN YOU 3.0 official event poster" },
+const EXISTING_IMAGES: { key: string; src: string; alt: string }[] = [
+  { key: "g1", src: g1.url, alt: "STEM IN YOU gallery image" },
+  { key: "g4", src: g4.url, alt: "STEM IN YOU gallery image" },
+  { key: "g2", src: g2.url, alt: "STEM IN YOU gallery image" },
+  { key: "g7", src: g7.url, alt: "STEM IN YOU gallery image" },
+  { key: "g8", src: g8.url, alt: "STEM IN YOU gallery image" },
+  { key: "g5", src: g5.url, alt: "STEM IN YOU gallery image" },
+  { key: "g9", src: g9.url, alt: "STEM IN YOU gallery image" },
+  { key: "g3", src: g3.url, alt: "STEM IN YOU gallery image" },
+  { key: "g10", src: g10.url, alt: "STEM IN YOU gallery image" },
+  { key: "g6", src: g6.url, alt: "STEM IN YOU gallery image" },
+];
+
+const REMOVED_EXISTING_IMAGE_KEYS = new Set(["g1", "g4", "g5"]);
+
+function makeAltFromPath(path: string) {
+  const fileName = path.split("/").pop() ?? "Gallery image";
+  const noExtension = fileName.replace(/\.[^.]+$/, "");
+  return noExtension.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim() || "Gallery image";
+}
+
+const NEW_IMAGES: { src: string; alt: string }[] = Object.entries(imageModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, src]) => ({
+    src,
+    alt: makeAltFromPath(path),
+  }));
+
+const IMAGES: { src: string; alt: string }[] = [
+  ...EXISTING_IMAGES.filter((img) => !REMOVED_EXISTING_IMAGE_KEYS.has(img.key)).map(({ src, alt }) => ({
+    src,
+    alt,
+  })),
+  ...NEW_IMAGES,
 ];
 
 function Gallery() {
-  const [filter, setFilter] = useState<Cat>("All");
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const shown = filter === "All" ? IMAGES : IMAGES.filter((i) => i.cat === filter);
 
   return (
     <>
@@ -53,23 +79,8 @@ function Gallery() {
         subtitle="Snapshots from our sessions, campaigns and community across Nigeria."
       />
       <PageBody>
-        <div className="mb-8 flex flex-wrap gap-2">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c}
-              onClick={() => setFilter(c)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                filter === c
-                  ? "bg-gradient-brand text-white shadow-soft"
-                  : "border border-border hover:bg-accent"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((img) => (
+          {IMAGES.map((img) => (
             <button
               key={img.src}
               onClick={() => setLightbox(img.src)}
