@@ -22,14 +22,16 @@ export const Route = createFileRoute("/about")({
 function About() {
   const leaders = [
     {
-      name: "Chioma Precious Igbokwubiri",
-      role: "Founder of stem in you campaign",
+      name: "Precious Chioma Igbokwubiri",
+      role: "Founder, STEM IN YOU",
       image: founderImage,
+      imageClassName: "object-center",
     },
     {
-      name: "Shallom Igbowukubiri",
-      role: "Vice president, girl up port harcourt",
+      name: "Shalom Chinonye Igbokwubiri",
+      role: "Co-Founder, STEM IN YOU",
       image: vicePresidentImage,
+      imageClassName: "object-[50%_35%] scale-110",
     },
   ];
 
@@ -37,7 +39,7 @@ function About() {
     <>
       <PageHeader
         eyebrow="About"
-        title="Nurturing minds. Building futures."
+        title="Nurturing minds. Building futures. Empowering tomorrow."
         subtitle="STEM IN YOU is an annual campaign inspiring young Nigerians in Science, Technology, Engineering and Mathematics — with a special focus on the girl child."
       />
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-15">
@@ -50,7 +52,7 @@ function About() {
               <img
                 src={leader.image}
                 alt={leader.name}
-                className="mx-auto h-32 w-32 rounded-full border-4 border-primary/20 object-cover shadow-soft"
+                className={`mx-auto h-32 w-32 rounded-full border-4 border-primary/20 object-cover shadow-soft ${leader.imageClassName}`}
                 loading="lazy"
               />
               <h2 className="mt-5 text-xl font-semibold text-foreground">{leader.name}</h2>
@@ -92,10 +94,11 @@ function About() {
           <h2 className="text-2xl font-bold sm:text-3xl">Our Journey</h2>
           <p className="mt-3 max-w-3xl text-muted-foreground">
             Launched in 2021, STEM IN YOU has grown into one of Nigeria's most trusted youth-focused
-            STEM initiatives. Over four editions, we've reached 400+ students across multiple states,
-            delivering presentations, Think–Pair–Share activities, interactive demonstrations,
-            hands-on experiments, quizzes, awards and mentorship. The 2026 edition marks our 4th
-            campaign — bigger, bolder, and more inclusive than ever.
+            STEM initiatives. We've reached 400+ students across multiple states, delivering
+            presentations, Think-Pair-Share activities, interactive demonstrations, hands-on
+            experiments, quizzes, awards and mentorship. The campaign is fully certified by the
+            United Nations Academic Impact. Each edition promises to be bigger, better, and more
+            inclusive.
           </p>
         </div>
       </PageBody>
