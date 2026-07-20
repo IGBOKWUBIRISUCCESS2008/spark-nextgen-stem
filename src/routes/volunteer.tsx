@@ -89,6 +89,7 @@ function Volunteer() {
               payload.append("location", location);
               payload.append("areasOfInterest", selected.length ? selected.join(", ") : "Not specified");
               payload.append("bio", bio);
+              payload.append("_replyto", email);
               payload.append("_subject", `Volunteer application from ${name || "Website visitor"}`);
               payload.append("_template", "table");
 
@@ -106,12 +107,17 @@ function Volunteer() {
 
                 setSubmitted(true);
                 if (hasCv) {
-                  setCvStatus("CV uploaded successfully.");
+                  setCvStatus("CV uploaded successfully and attached to the application email.");
                 }
                 setCvFileName(null);
                 form.reset();
                 setSelected([]);
               } catch {
+                if (hasCv) {
+                  setError("We couldn't upload the CV this time. Please retry submission — email fallback cannot attach files.");
+                  return;
+                }
+
                 const subject = encodeURIComponent(`Volunteer application from ${name || "Website visitor"}`);
                 const body = encodeURIComponent(
                   [
@@ -124,9 +130,7 @@ function Volunteer() {
                     "About applicant:",
                     bio,
                     "",
-                    hasCv
-                      ? "CV was selected in form. Please attach the CV manually in your email app before sending."
-                      : "No CV attached.",
+                    "No CV attached.",
                   ].join("\n"),
                 );
                 window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
