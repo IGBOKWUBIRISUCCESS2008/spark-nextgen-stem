@@ -14,13 +14,13 @@ export const Route = createFileRoute("/events")({
 });
 
 const upcoming = [
-  { title: "STEM IN YOU 2026 — 4th Edition Launch", date: "March 14, 2026", location: "Lagos, Nigeria", tag: "Upcoming" },
-  { title: "Girls in Robotics Workshop", date: "April 20, 2026", location: "Abuja", tag: "Upcoming" },
+  { title: "STEM IN YOU 2026 - 4th Edition", date: "October 2026", location: "Ogun", tag: "Upcoming" },
+  { title: "Girls in Robotics Workshop", date: "April 2027", location: "Lagos", tag: "Upcoming" },
 ];
 const past = [
-  { title: "STEM IN YOU 2024 — 3rd Edition", date: "May 2024", location: "Lagos", tag: "Past" },
-  { title: "STEM IN YOU 2023 — 2nd Edition", date: "June 2023", location: "Rivers State", tag: "Past" },
-  { title: "STEM IN YOU 2021 — Inaugural Edition", date: "October 2021", location: "Lagos", tag: "Past" },
+  { title: "STEM IN YOU 2021 - Inaugural Edition", date: "November 2021", location: "Rivers", tag: "Past" },
+  { title: "STEM IN YOU 2023 - 2nd Edition", date: "October 2022", location: "Lagos", tag: "Past" },
+  { title: "STEM IN YOU 2024 - 3rd Edition", date: "November 2024", location: "Rivers", tag: "Past" },
 ];
 
 function Card({ e }: { e: typeof upcoming[number] }) {
