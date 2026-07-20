@@ -15,6 +15,7 @@ export const Route = createFileRoute("/partner")({
 
 function Partner() {
   const [sent, setSent] = useState(false);
+  const contactEmail = "contact@steminyou.com";
   return (
     <>
       <PageHeader eyebrow="Partner" title="Amplify STEM together" subtitle="Corporate partners, foundations and schools — let's build the future together." />
@@ -44,7 +45,31 @@ function Partner() {
             </div>
           ) : (
             <form
-              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const data = new FormData(form);
+                const org = String(data.get("org") ?? "").trim();
+                const contact = String(data.get("contact") ?? "").trim();
+                const email = String(data.get("email") ?? "").trim();
+                const details = String(data.get("details") ?? "").trim();
+
+                const subject = encodeURIComponent(`Partnership enquiry from ${org || "Organization"}`);
+                const body = encodeURIComponent(
+                  [
+                    `Organization: ${org}`,
+                    `Contact person: ${contact}`,
+                    `Email: ${email}`,
+                    "",
+                    "Partnership interest:",
+                    details,
+                  ].join("\n"),
+                );
+
+                window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+                setSent(true);
+                form.reset();
+              }}
               className="space-y-4 rounded-3xl border border-border bg-card p-8 shadow-soft"
             >
               <Field label="Organization" name="org" required />
@@ -52,11 +77,14 @@ function Partner() {
               <Field label="Email" name="email" type="email" required />
               <div>
                 <label className="mb-1.5 block text-sm font-semibold">How would you like to partner?</label>
-                <textarea rows={4} className="w-full rounded-xl border border-input bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring" />
+                <textarea name="details" rows={4} className="w-full rounded-xl border border-input bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring" />
               </div>
               <button className="rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-white shadow-elegant">
                 Send inquiry
               </button>
+              <p className="text-xs text-muted-foreground">
+                Inquiries are delivered to {contactEmail} through your email app.
+              </p>
             </form>
           )}
         </div>
