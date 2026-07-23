@@ -24,12 +24,14 @@ function About() {
     {
       name: "Precious Chioma Igbokwubiri",
       role: "Founder, STEM IN YOU",
+      bio: "Energy Engineer",
       image: founderImage,
       imageClassName: "object-center",
     },
     {
       name: "Shallom Chinonye Igbokwubiri",
       role: "Co-Founder, STEM IN YOU",
+      bio: "Human Physiologist",
       image: vicePresidentImage,
       imageClassName: "object-[50%_35%] scale-110",
     },
@@ -57,6 +59,7 @@ function About() {
               />
               <h2 className="mt-5 text-xl font-semibold text-foreground">{leader.name}</h2>
               <p className="mt-1 text-sm text-muted-foreground">{leader.role}</p>
+              <p className="mt-1 text-sm font-medium text-primary">{leader.bio}</p>
             </article>
           ))}
         </div>
